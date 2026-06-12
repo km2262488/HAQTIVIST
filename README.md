@@ -22,3 +22,46 @@ go build -o haqtivist.exe haqtivist.go
 # Verbose mode untuk debugging
 ./haqtivist -target https://yoursite.com -verbose -duration 60
 
+Contoh Output:
+
+```
+╔══════════════════════════════════════════════════════════════════╗
+║              Web Stress Testing Tool - Legal Use Only            ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Version: 1.0.0
+
+🚀 Starting stress test...
+======================================================================
+
+📊 Test Configuration:
+   Target: https://yoursite.com
+   Method: GET
+   Threads: 50
+   Safe Mode: false
+   Random IP: true
+   Delay: 0ms
+
+Active | Requests | Success | Errors | Status
+-------|----------|---------|--------|-------
+   50  |     1000 |     998 |      2 | Running
+
+======================================================================
+📊 FINAL TEST STATISTICS
+======================================================================
+
+⏱️  Test Duration:     30.45 seconds
+📨 Total Requests:    1523
+✅ Successful:        1518
+❌ Errors:            5
+📈 Success Rate:      99.67%
+📊 Requests/Second:   50.02
+
+⏱️  Response Time Stats:
+   Average: 245ms
+   Minimum: 89ms
+   Maximum: 1234ms
+
+📋 Assessment:
+   ✅ Server handled the load well
+```

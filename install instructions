@@ -1,0 +1,339 @@
+📦 Cara Pemasangan haqtivist
+
+Berikut panduan lengkap instalasi haqtivist di berbagai platform:
+
+🐧 Linux (Ubuntu/Debian/Termux)
+
+1. Install Go (Jika belum ada)
+
+Untuk Ubuntu/Debian:
+
+```bash
+# Update package
+sudo apt update
+
+# Install Go
+sudo apt install golang-go -y
+
+# Atau install versi terbaru
+wget https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.21.5.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Untuk Termux (Android):
+
+```bash
+# Update package
+pkg update && pkg upgrade
+
+# Install Go
+pkg install golang
+
+# Install git
+pkg install git
+```
+
+2. Download dan Install haqtivist
+
+```bash
+# Buat folder khusus
+mkdir ~/haqtivist
+cd ~/haqtivist
+
+# Buat file haqtivist.go (copy script dari atas)
+nano haqtivist.go
+# Paste seluruh script, simpan dengan Ctrl+X, Y, Enter
+
+# Atau download langsung (jika sudah diupload ke GitHub)
+# git clone https://github.com/username/haqtivist.git
+# cd haqtivist
+```
+
+3. Compile haqtivist
+
+```bash
+# Compile untuk Linux
+go build -o haqtivist haqtivist.go
+
+# Jika ingin ukuran lebih kecil (strip debug info)
+go build -ldflags="-s -w" -o haqtivist haqtivist.go
+
+# Compile untuk ARM (Termux/Raspberry Pi)
+GOOS=linux GOARCH=arm go build -o haqtivist haqtivist.go
+```
+
+4. Install ke System (Opsional)
+
+```bash
+# Pindahkan ke /usr/local/bin
+sudo mv haqtivist /usr/local/bin/
+
+# Atau buat alias
+echo 'alias haqtivist="~/haqtivist/haqtivist"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+🪟 Windows
+
+1. Install Go
+
+· Download Go dari: https://go.dev/dl/
+· Pilih go1.21.5.windows-amd64.msi
+· Install seperti biasa
+
+2. Install haqtivist
+
+Menggunakan Command Prompt (Admin):
+
+```cmd
+# Buat folder
+mkdir C:\haqtivist
+cd C:\haqtivist
+
+# Buat file haqtivist.go (gunakan notepad)
+notepad haqtivist.go
+# Paste script, save as UTF-8
+
+# Compile
+go build -o haqtivist.exe haqtivist.go
+```
+
+Menggunakan PowerShell:
+
+```powershell
+# Buat folder
+New-Item -ItemType Directory -Path C:\haqtivist
+Set-Location C:\haqtivist
+
+# Compile
+go build -o haqtivist.exe haqtivist.go
+```
+
+3. Tambahkan ke PATH (Opsional)
+
+```powershell
+# Set environment variable
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\haqtivist", [EnvironmentVariableTarget]::User)
+```
+
+🍎 MacOS
+
+```bash
+# Install Go via Homebrew
+brew install go
+
+# Atau download dari website
+wget https://go.dev/dl/go1.21.5.darwin-amd64.pkg
+# Install package
+
+# Buat folder dan compile
+mkdir ~/haqtivist
+cd ~/haqtivist
+nano haqtivist.go
+# Paste script
+
+# Compile
+go build -o haqtivist haqtivist.go
+
+# Move to /usr/local/bin
+sudo mv haqtivist /usr/local/bin/
+```
+
+🐳 Docker (Alternative - No Go installation needed)
+
+Buat file Dockerfile:
+
+```dockerfile
+FROM golang:1.21-alpine
+
+WORKDIR /app
+
+COPY haqtivist.go .
+
+RUN go build -o haqtivist haqtivist.go
+
+ENTRYPOINT ["./haqtivist"]
+```
+
+Build dan run:
+
+```bash
+# Build image
+docker build -t haqtivist .
+
+# Run
+docker run --rm haqtivist -target https://example.com -threads 10 -duration 5
+```
+
+📱 Termux (Android) - Lengkap
+
+```bash
+# 1. Update Termux
+pkg update && pkg upgrade
+
+# 2. Install dependencies
+pkg install golang git nano
+
+# 3. Buat folder dan script
+mkdir ~/haqtivist
+cd ~/haqtivist
+
+# 4. Buat file (copy script dari atas)
+cat > haqtivist.go << 'EOF'
+# Paste seluruh script disini
+EOF
+
+# Atau menggunakan nano
+nano haqtivist.go
+
+# 5. Compile untuk ARM
+go build -o haqtivist haqtivist.go
+
+# 6. Test run
+./haqtivist -version
+
+# 7. Buat user agents file (opsional)
+cat > useragents.txt << 'EOF'
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36
+EOF
+
+# 8. Jalankan test
+./haqtivist -target https://yoursite.com -threads 50 -duration 30
+```
+
+🚀 Quick Installation Script (Auto)
+
+Buat file install.sh:
+
+```bash
+#!/bin/bash
+
+echo "🚀 Installing haqtivist..."
+
+# Check Go installation
+if ! command -v go &> /dev/null; then
+    echo "❌ Go not found. Installing Go..."
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt &> /dev/null; then
+            sudo apt update && sudo apt install golang-go -y
+        elif command -v pkg &> /dev/null; then
+            pkg install golang
+        fi
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install go
+    elif [[ "$OSTYPE" == "msys" ]]; then
+        echo "Please install Go manually from https://go.dev/dl/"
+        exit 1
+    fi
+fi
+
+# Create directory
+mkdir -p ~/haqtivist
+cd ~/haqtivist
+
+# Download script (if hosted)
+# curl -o haqtivist.go https://raw.githubusercontent.com/yourrepo/haqtivist/main/haqtivist.go
+
+echo "📝 Please create haqtivist.go file with the script content"
+read -p "Press Enter when done..."
+
+# Compile
+echo "🔨 Compiling haqtivist..."
+go build -ldflags="-s -w" -o haqtivist haqtivist.go
+
+# Move to PATH
+if [[ "$OSTYPE" != "msys" ]]; then
+    sudo mv haqtivist /usr/local/bin/
+    echo "✅ haqtivist installed to /usr/local/bin"
+else
+    echo "✅ haqtivist.exe created in $(pwd)"
+fi
+
+echo "✨ Installation complete!"
+echo "Usage: haqtivist -target https://example.com -threads 50"
+```
+
+Jalankan:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+✅ Verifikasi Instalasi
+
+```bash
+# Cek versi
+./haqtivist -version
+
+# Test help
+./haqtivist -help
+
+# Quick test ke localhost (pastikan ada server running)
+./haqtivist -target http://localhost -threads 5 -duration 2 -safe
+```
+
+📁 Struktur Folder yang Direkomendasikan
+
+```
+~/haqtivist/
+├── haqtivist.go          # Source code
+├── haqtivist             # Binary executable
+├── useragents.txt        # Custom user agents (opsional)
+├── payload.json          # Custom payload (opsional)
+└── results/              # Folder untuk menyimpan hasil test
+    └── report_*.json
+```
+
+⚠️ Troubleshooting
+
+Error: "go: command not found"
+
+```bash
+# Install Go terlebih dahulu sesuai OS
+# Atau gunakan Docker version
+```
+
+Error: "cannot find package"
+
+```bash
+# Pastikan Go modules enabled
+export GO111MODULE=on
+go mod init haqtivist
+go mod tidy
+```
+
+Permission denied saat run
+
+```bash
+chmod +x haqtivist
+./haqtivist
+```
+
+Port already in use (jika testing local)
+
+```bash
+# Ganti port target
+./haqtivist -target http://localhost:8081
+```
+
+🎯 Cepat Testing
+
+```bash
+# Test ke website sendiri
+./haqtivist -target https://your-website.com -threads 20 -duration 10 -safe
+
+# Dengan verbose output
+./haqtivist -target https://your-website.com -threads 30 -duration 20 -verbose
+
+# Test dengan custom user-agents
+./haqtivist -target https://your-website.com -agents useragents.txt -threads 50
+```
+
+Selesai! Sekarang haqtivist siap digunakan untuk stress testing website Anda sendiri.
+
+Ingat: Gunakan hanya untuk testing website milik sendiri atau dengan izin tertulis!
